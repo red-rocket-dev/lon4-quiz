@@ -1,5 +1,6 @@
 package pl.sda;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -31,14 +32,14 @@ public class Main {
          *    d. Utwórz metodę questionCount - powinna zwrócić ile mamy pytań (a więc tylko zwrócić wartość pola) - to zwyczajny getter
          *  4. W klasie Main w metodzie main w miejscu "<tu inicjalizacja pytan>" utworz instancję QuestionBase i przypisz ją do zmiennej.
          *  5. Używając metody addQuestion dodaj do powyższej zmiennej pytania (na początek 10 wystarczy). Powinno to wyglądać mniej więcej tak:
-         * Question q1 = new Question();
-         * q1.setQuestion("Ile lap ma kot?")
-         * q1.getAnswers()[0] = "Jedną";
-         * q1.getAnswers()[1] = "Cztery";
-         * q1.getAnswers()[2] = "Trzy";
-         * q1.getAnswers()[3] = "Dwie";
-         * q1.setCorrectAnswer(1);
-         * questionBase.add(q1);
+         * Question question = new Question();
+         * question.setQuestion("Ile lap ma kot?")
+         * question.getAnswers()[0] = "Jedną";
+         * question.getAnswers()[1] = "Cztery";
+         * question.getAnswers()[2] = "Trzy";
+         * question.getAnswers()[3] = "Dwie";
+         * question.setCorrectAnswer(1);
+         * questionBase.add(question);
          *  6. Cały kod dodający pytania do bazy pytań (a więc nie inicjalizacja QuestionBase) przenieś do osobnej metody
          *  statycznej i prywatnej - initializeQuestionBase(QuestionBase questionBase)
          *  7. Zaimplementuj obsługę grania w "tutaj kod do obsługi grania":
@@ -54,6 +55,17 @@ public class Main {
         //TODO: jak można łatwo podzielić klasy - POJO i nie
 
         // <tu inicjalizacja pytan>
+        Question question = new Question();
+        question.setText("Ile lap ma kot?");
+        String[] answers = question.getAnswers();
+        answers[0] = "Jedną";
+        answers[1] = "Cztery";
+        answers[2] = "Trzy";
+        answers[3] = "Dwie";
+        question.setCorrectAnswerIndex(1);
+
+        System.out.println(Arrays.toString(question.getAnswers()));
+
 
         System.out.println("Witaj! Co chcesz robić?");
         Scanner scanner = new Scanner(System.in);
@@ -62,7 +74,8 @@ public class Main {
         do {
             menuChoice = scanner.nextLine();
             if ("gram".equals(menuChoice)) {
-                //tutaj kod do obsługi grania
+                System.out.println("Podaj swoj nick");
+                String playerName = scanner.nextLine();
             } else if ("tablica".equals(menuChoice)) {
                 //tutaj kod do obsługi tablicy wyników
             }
