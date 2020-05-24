@@ -1,5 +1,7 @@
 package pl.sda;
 
+import java.util.Arrays;
+
 public class Question {
     private String text;
     private String[] answers;
@@ -31,5 +33,14 @@ public class Question {
 
     public void setAnswers(String[] answers) {
         this.answers = answers;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "text='" + text + '\'' +
+                ", answers=" + Arrays.toString(answers) +
+                ", correctAnswerIndex=" + correctAnswerIndex +
+                '}';
     }
 }

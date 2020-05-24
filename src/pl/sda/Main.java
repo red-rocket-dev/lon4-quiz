@@ -1,6 +1,6 @@
 package pl.sda;
 
-import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -55,16 +55,9 @@ public class Main {
         //TODO: jak można łatwo podzielić klasy - POJO i nie
 
         // <tu inicjalizacja pytan>
-        Question question = new Question();
-        question.setText("Ile lap ma kot?");
-        String[] answers = question.getAnswers();
-        answers[0] = "Jedną";
-        answers[1] = "Cztery";
-        answers[2] = "Trzy";
-        answers[3] = "Dwie";
-        question.setCorrectAnswerIndex(1);
+        QuestionBase questionBase = new QuestionBase();
 
-        System.out.println(Arrays.toString(question.getAnswers()));
+        initializeQuestionBase(questionBase);
 
 
         System.out.println("Witaj! Co chcesz robić?");
@@ -76,11 +69,110 @@ public class Main {
             if ("gram".equals(menuChoice)) {
                 System.out.println("Podaj swoj nick");
                 String playerName = scanner.nextLine();
+                int questionCounter = 0;
+
+                int[] usedRandomNumbers = new int[5];
+                while (questionCounter < 5) {
+                    Random randomGenerator = new Random();
+                    int questionNumber = randomGenerator.nextInt(questionBase.getQuestionCount());
+                    while (doesArrayContain(usedRandomNumbers, questionCounter, questionNumber)) {
+                        questionNumber = randomGenerator.nextInt(questionBase.getQuestionCount());
+                    }
+                    usedRandomNumbers[questionCounter] = questionNumber;
+
+                    //TODO: jak zrobic, zeby sie nie powtarzaly
+
+                    Question chosenQuestion = questionBase.getQuestion(questionNumber);
+                    System.out.println(chosenQuestion.getText());
+                    String[] answers = chosenQuestion.getAnswers();
+                    for (int i = 0; i < answers.length; i++) {
+                        int currentQuestionNumber = i + 1;
+                        System.out.println(currentQuestionNumber + ". " + answers[i]);
+                    }
+                    System.out.println("Podaj odpowiedz (cyfra)");
+                    String playerAnswer = scanner.nextLine();
+                    int playerAnswerIndex = Integer.parseInt(playerAnswer) - 1;
+                    int correctAnswerIndex = chosenQuestion.getCorrectAnswerIndex();
+                    if (playerAnswerIndex == correctAnswerIndex) {
+                        System.out.println("Poprawna odpowiedz!");
+                    } else {
+                        System.out.println("Niepoprawna odpowiedz!");
+                        System.out.println("Poprawna odpowiedz to: ");
+                        System.out.println(answers[correctAnswerIndex]);
+                    }
+                    questionCounter ++;
+                }
             } else if ("tablica".equals(menuChoice)) {
                 //tutaj kod do obsługi tablicy wyników
             }
         } while ("q".equals(menuChoice));
     }
 
+    private static void costam(int abc) {
+        abc++;
+        System.out.println(abc);
+    }
+
+    private static boolean doesArrayContain(int[] arrayToLookIn, int arrayEnd, int searchingFor) {
+        for(int i = 0; i < arrayEnd; i++) {
+            if(arrayToLookIn[i] == searchingFor) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void initializeQuestionBase(QuestionBase questionBase) {
+        Question question = new Question();
+        question.setText("Ile lap ma pies?");
+        String[] answers = question.getAnswers();
+        answers[0] = "Jedną";
+        answers[1] = "Cztery";
+        answers[2] = "Trzy";
+        answers[3] = "Dwie";
+        question.setCorrectAnswerIndex(1);
+        questionBase.addQuestion(question);
+
+
+        question = new Question();
+        question.setText("Ile lap ma kot?");
+        answers = question.getAnswers();
+        answers[0] = "Jedną";
+        answers[1] = "Cztery";
+        answers[2] = "Trzy";
+        answers[3] = "Dwie";
+        question.setCorrectAnswerIndex(1);
+        questionBase.addQuestion(question);
+
+        question = new Question();
+        question.setText("O ktorej zaczynamy zajecia w GB?");
+        answers = question.getAnswers();
+        answers[0] = "8:00";
+        answers[1] = "9:00";
+        answers[2] = "12:00";
+        answers[3] = "13:33";
+        question.setCorrectAnswerIndex(0);
+        questionBase.addQuestion(question);
+
+        question = new Question();
+        question.setText("Gdzie sa zajecia w GB?");
+        answers = question.getAnswers();
+        answers[0] = "Londyn";
+        answers[1] = "Katowice";
+        answers[2] = "Bristol";
+        answers[3] = "Warszawa";
+        question.setCorrectAnswerIndex(0);
+        questionBase.addQuestion(question);
+
+        question = new Question();
+        question.setText("Jaka mamy dzis pogode?");
+        answers = question.getAnswers();
+        answers[0] = "Deszczowa";
+        answers[1] = "Sloneczna";
+        answers[2] = "Pochmurnie";
+        answers[3] = "Wietrzna";
+        question.setCorrectAnswerIndex(0);
+        questionBase.addQuestion(question);
+    }
 
 }
